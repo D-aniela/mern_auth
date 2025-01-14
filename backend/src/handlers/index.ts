@@ -3,6 +3,7 @@ import slug from 'slug'
 
 import User from '../models/User'
 import { checkPassword, hashPassword } from '../utils/auth'
+import { generateJWT } from '../utils/jwt'
 
 export const createAccount = async (req: Request, res: Response) => {
   const { email, password } = req.body
@@ -42,5 +43,7 @@ export const login = async (req: Request, res: Response) => {
     return res.status(401).send({ error: error.message })
   }
 
-  res.send({ msg: 'Login correcto' })
+  const token = generateJWT({ id: userExist._id })
+
+  res.send(token)
 }
