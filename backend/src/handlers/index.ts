@@ -1,10 +1,9 @@
 import { Request, Response } from 'express'
 import slug from 'slug'
-import jwt from 'jsonwebtoken'
 
-import User from '../models/User'
 import { checkPassword, hashPassword } from '../utils/auth'
 import { generateJWT } from '../utils/jwt'
+import User from '../models/User'
 
 export const createAccount = async (req: Request, res: Response) => {
   const { email, password } = req.body
@@ -50,29 +49,5 @@ export const login = async (req: Request, res: Response) => {
 }
 
 export const getUser = async (req: Request, res: Response) => {
-  const bearer = req.headers.authorization
-  if (!bearer) {
-    const error = new Error('No Autorizado')
-    return res.status(401).send({ error: error.message })
-  }
-
-  const [, token] = bearer.split(' ')
-  if (!token) {
-    const error = new Error('No Autorizado')
-    return res.status(401).send({ error: error.message })
-  }
-
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET)
-    if (typeof decoded === 'object' && decoded.id) {
-      const user = await User.findById(decoded.id).select('-password')
-      if (!user) {
-        const error = new Error('El usuario no existe')
-        return res.status(401).send({ error: error.message })
-      }
-      res.json(user)
-    }
-  } catch (error) {
-    res.status(500).json({ error: 'TOKEN NO VÁLIDO' })
-  }
+  res.json(req.user)
 }
