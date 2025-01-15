@@ -1,11 +1,11 @@
-import mongoose from 'mongoose'
+import mongoose, { Document } from 'mongoose'
 
-export interface IUser {
+export interface IUser extends Document {
   handle: string
   name: string
   email: string
   password: string
-  unique: true
+  description: string
 }
 
 const UserSchema = new mongoose.Schema({
@@ -31,6 +31,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
+  },
+  description: {
+    type: String,
+    default: '',
   },
 })
 
