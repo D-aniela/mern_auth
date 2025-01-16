@@ -81,9 +81,8 @@ export const uploadImage = async (req: Request, res: Response) => {
   try {
     const form = formidable({ multiples: false })
     form.parse(req, (error, fields, files) => {
-      console.log(files.file[0].filepath)
       cloudinary.uploader.upload(
-        files.file[0].filepath,
+        files.image[0].filepath,
         { public_id: uuid() },
         async function (error, result) {
           if (error) {
