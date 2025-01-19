@@ -5,10 +5,10 @@ import { getUser } from '../api/DevTreeAPI'
 import DevTree from '../components/DevTree'
 
 export default function AppLayout() {
-  const { data, isLoading, error, isError } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryFn: getUser,
     queryKey: ['user'],
-    retry: 1,
+    retry: 2, //Darle mas tiempo a que se ejecute la función
     refetchOnWindowFocus: false,
   })
 

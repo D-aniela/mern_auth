@@ -6,6 +6,7 @@ import {
   getUser,
   getUserByHandle,
   login,
+  searchByHandle,
   updateProfile,
   uploadImage,
 } from './handlers'
@@ -53,5 +54,12 @@ router.patch(
 router.post('/user/image', authenticate, uploadImage)
 
 router.get('/:handle', getUserByHandle)
+
+router.post(
+  '/search',
+  body('handle').notEmpty().withMessage('El handle no puede estar vacio'),
+  handleInputErrors,
+  searchByHandle
+)
 
 export default router
